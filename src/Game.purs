@@ -42,7 +42,10 @@ pickUp item = do
     _ -> tell (L.singleton "I don't see that item here.")
 
 move :: Int -> Int -> Game Unit
-move dx dy = modify (\(GameState state) -> GameState (state { player = updateCoords state.player }))
+move dx dy = modify (
+  \(GameState state) ->
+    GameState (state { player = updateCoords state.player })
+  ) *> pure unit
   where
   updateCoords :: Coords -> Coords
   updateCoords (Coords p) = coords (p.x + dx) (p.y + dy)
